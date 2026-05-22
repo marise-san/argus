@@ -33,12 +33,12 @@ st.set_page_config(
 # Injeção de CSS customizado para acabamento premium
 st.markdown("""
 <style>
-    /* Reduz o padding gigante padrão do Streamlit no topo e na base */
-    .block-container {
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
-        max-width: 95% !important;
-    }
+    # /* Reduz o padding gigante padrão do Streamlit no topo e na base */
+    # .block-container {
+    #     padding-top: 2rem !important;
+    #     padding-bottom: 2rem !important;
+    #     max-width: 95% !important;
+    # }
 
     /* Ajuste de tipografia e espaçamento dos cards de métricas */
     [data-testid="stMetricValue"] {

@@ -84,21 +84,23 @@ Isso instala: pandas, numpy, scipy, scikit-learn, streamlit, plotly, openai, pyt
 
 ---
 
-### Passo 5 — Configure as variáveis de ambiente
+### Passo 5 — Configure o `.env`
 
-Copie o arquivo de exemplo e preencha com suas chaves:
+O Argus usa um arquivo `.env` para gerenciar chaves. Copie o template:
 
-**Windows (PowerShell):**
-```powershell
-Copy-Item .env.example .env
-```
-
-**macOS / Linux:**
 ```bash
 cp .env.example .env
 ```
 
-Edite o `.env` com qualquer editor de texto:
+Abra o `.env` gerado e configure:
+
+1. **Inteligência Artificial (opcional)**: 
+   - Deixe `ARGUS_LLM_PROVIDER=template` para rodar 100% offline (textos fixos).
+   - Para usar IA real, mude para `openai` e coloque sua `OPENAI_API_KEY`.
+
+2. **Dataset BankSim Real (opcional)**:
+   - Se quiser que o Argus baixe os **dados reais do Kaggle** automaticamente, preencha as variáveis `KAGGLE_USERNAME` e `KAGGLE_KEY` com suas credenciais. 
+   - Se não preencher, não tem problema! O Argus vai **gerar um dataset sintético** idêntico na hora, para que você não precise configurar chaves nem baixar nada manualmente.
 
 ```dotenv
 # Para rodar com IA real (OpenAI):
