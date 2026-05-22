@@ -1,0 +1,18 @@
+# --- Núcleo de análise de dados ---
+pandas>=2.2
+numpy>=1.26
+scipy>=1.13
+scikit-learn>=1.5
+
+# --- Interface ---
+streamlit>=1.36
+plotly>=5.22
+
+# --- Configuração ---
+python-dotenv>=1.0
+
+# --- IA generativa (opcional: só para o provedor "openai") ---
+openai>=1.40
+
+# --- Desenvolvimento / testes ---
+pytest>=8.0
