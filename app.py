@@ -42,17 +42,19 @@ st.markdown("""
 
     /* Ajuste de tipografia e espaçamento dos cards de métricas */
     [data-testid="stMetricValue"] {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 600;
         color: #E8E6E1;
     }
     [data-testid="stMetricLabel"] {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
         font-weight: 500;
         color: #A0AABF;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     [data-testid="stMetricDelta"] {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
     
     /* Suaviza as divisórias */
@@ -60,6 +62,13 @@ st.markdown("""
         border-color: #2e3b4e !important;
     }
     
+    /* Melhoria no visual dos Containers com borda (Cards) */
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 0.5rem;
+        border-color: #2e3b4e !important;
+        background-color: rgba(15, 23, 42, 0.4);
+    }
+
     /* Sidebar mais limpa */
     [data-testid="stSidebar"] {
         border-right: 1px solid #2e3b4e;
@@ -110,9 +119,10 @@ with st.sidebar:
     st.divider()
 
     rq = resultado.relatorio_qualidade
-    st.metric("Confiança dos dados", f"{rq.score_confianca:.0f} / 100")
-    st.metric("Transações varridas", f"{resultado.total_transacoes:,}")
-    st.metric("Tempo de análise", f"{resultado.tempo_processamento_s} s")
+    with st.container(border=True):
+        st.metric("Confiança dos dados", f"{rq.score_confianca:.0f} / 100")
+        st.metric("Transações varridas", f"{resultado.total_transacoes:,}")
+        st.metric("Tempo de análise", f"{resultado.tempo_processamento_s} s")
 
     if rq.problemas:
         with st.expander("⚠️ Avisos de qualidade"):
@@ -154,12 +164,13 @@ if tela == "Painel de Risco":
     cols = st.columns(len(top3))
     for col, alerta in zip(cols, top3):
         with col:
-            st.metric(
-                label=f"{icones[alerta.nivel]} {alerta.entidade}",
-                value=f"{alerta.score_risco:.2f}",
-                delta=f"{alerta.nivel} risco · {alerta.n_transacoes:,} transações",
-                delta_color="inverse" if alerta.nivel == "Alto" else "normal",
-            )
+            with st.container(border=True):
+                st.metric(
+                    label=f"{icones[alerta.nivel]} {alerta.entidade}",
+                    value=f"{alerta.score_risco:.2f}",
+                    delta=f"{alerta.nivel} risco · {alerta.n_transacoes:,} transações",
+                    delta_color="inverse" if alerta.nivel == "Alto" else "normal",
+                )
 
     st.divider()
 
@@ -198,7 +209,7 @@ if tela == "Painel de Risco":
             "Anomalia": "{:.3f}",
             "Valor Total (R$)": "R$ {:,.2f}",
         }),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
     st.caption("👆 Vá em **Dossiê do Alerta** para detalhar qualquer fornecedor.")
@@ -217,10 +228,18 @@ elif tela == "Dossiê do Alerta":
 
     # ── Métricas de cabeçalho ──────────────────────────────────────────────
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Score de Risco", f"{alerta.score_risco:.3f}", alerta.nivel)
-    c2.metric("Benford", rb.conformidade.value)
-    c3.metric("Transações", f"{alerta.n_transacoes:,}")
-    c4.metric("Valor Total", f"R$ {alerta.valor_total:,.0f}")
+    with c1:
+        with st.container(border=True):
+            st.metric("Score de Risco", f"{alerta.score_risco:.3f}", alerta.nivel)
+    with c2:
+        with st.container(border=True):
+            st.metric("Benford", rb.conformidade.value)
+    with c3:
+        with st.container(border=True):
+            st.metric("Transações", f"{alerta.n_transacoes:,}")
+    with c4:
+        with st.container(border=True):
+            st.metric("Valor Total", f"R$ {alerta.valor_total:,.0f}")
 
     st.divider()
 
@@ -265,7 +284,9 @@ elif tela == "Dossiê do Alerta":
                 plot_bgcolor="rgba(0,0,0,0)",
                 font=dict(color="#A0AABF")
             )
-            st.plotly_chart(fig, use_container_width=True)
+            
+            with st.container(border=True):
+                st.plotly_chart(fig, width="stretch")
 
             if rb.digito_suspeito:
                 pct_obs = rb.distribuicao_observada[rb.digito_suspeito] * 100
@@ -292,7 +313,8 @@ elif tela == "Dossiê do Alerta":
             with st.spinner("Gerando análise..."):
                 st.session_state[chave_exp] = servico.explicar(alerta)
 
-        st.markdown(st.session_state[chave_exp])
+        with st.container(border=True):
+            st.markdown(st.session_state[chave_exp])
 
     st.divider()
 
@@ -304,7 +326,8 @@ elif tela == "Dossiê do Alerta":
         with st.spinner("Redigindo nota..."):
             st.session_state[chave_nota] = servico.redigir_nota(alerta)
 
-    st.markdown(st.session_state[chave_nota])
+    with st.container(border=True):
+        st.markdown(st.session_state[chave_nota])
     st.download_button(
         label="⬇️ Baixar nota (.md)",
         data=st.session_state[chave_nota],
