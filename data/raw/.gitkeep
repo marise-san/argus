@@ -1,0 +1,7 @@
+# Coloque aqui o arquivo do dataset BankSim baixado do Kaggle.
+#
+#   Nome esperado: banksim.csv
+#   Fonte: https://www.kaggle.com/datasets/ealaxi/banksim1
+#
+# Se nenhum CSV estiver presente, o Argus gera automaticamente um
+# dataset sintético equivalente, e a aplicação roda mesmo assim.
