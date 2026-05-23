@@ -60,12 +60,11 @@ def prompt_nota_auditoria(alerta: AlertaRisco) -> str:
 
 
 def prompt_chat(pergunta: str, resultado: ResultadoAnalise) -> str:
-    top5 = resultado.top(5)
     contexto = "\n".join(
         f"- {a.entidade}: risco {a.score_risco:.2f} ({a.nivel}), "
         f"Benford {a.resultado_benford.conformidade.value}, "
         f"{a.n_transacoes} transações"
-        for a in top5
+        for a in resultado.alertas
     )
     rq = resultado.relatorio_qualidade
     return (
@@ -73,7 +72,7 @@ def prompt_chat(pergunta: str, resultado: ResultadoAnalise) -> str:
         f"Total de transações: {resultado.total_transacoes:,}\n"
         f"Fonte: {resultado.fonte_dados}\n"
         f"Qualidade dos dados: {rq.score_confianca:.0f}/100\n"
-        f"Top 5 fornecedores de maior risco:\n{contexto}\n\n"
+        f"Fornecedores analisados ({len(resultado.alertas)}):\n{contexto}\n\n"
         f"Pergunta do auditor: {pergunta}\n\n"
         f"Responda usando apenas o contexto acima. Se a pergunta não puder "
         f"ser respondida com esses dados, diga isso claramente."
