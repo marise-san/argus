@@ -8,10 +8,6 @@ em transações financeiras, mesmo quando os dados são incompletos ou ruidosos.
 Projeto desenvolvido para o **Hackathon da Ciência de Dados e GenAI** — desafio
 *"The Ethical Supply Chain Guardian"* (Especialização em IA e Ciência de Dados).
 
-Esta documentação segue o template **[arc42](https://arc42.org)**.
-
-📄 Roteiro da apresentação (TEDx): [`docs/roteiro-apresentacao.md`](docs/roteiro-apresentacao.md)
-
 ---
 
 ## Como Executar
